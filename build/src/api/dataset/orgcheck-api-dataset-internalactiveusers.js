@@ -25,7 +25,8 @@ export class DatasetInternalActiveUsers extends Dataset {
                     'FROM User ' +
                     'WHERE IsActive = true ' + // we only want active users
                     'AND ContactId = NULL ' + // only internal users
-                    'AND Profile.Id != NULL ' // we do not want the Automated Process users!
+                    'AND Profile.Id != NULL ' + // we do not want the Automated Process users!
+                    'AND UserType != \'ExternalIdentity\' ' // we only want internal users (not external identity)
         }, {
             string: 'SELECT Id, AssigneeId, PermissionSetId, PermissionSet.IsOwnedByProfile, ' +
                         'PermissionSet.PermissionsModifyAllData, ' +
@@ -36,7 +37,8 @@ export class DatasetInternalActiveUsers extends Dataset {
                     'FROM PermissionSetAssignment ' +
                     'WHERE Assignee.IsActive = true ' +
                     'AND Assignee.ContactId = NULL ' +
-                    'AND Assignee.Profile.Id != NULL'
+                    'AND Assignee.Profile.Id != NULL ' +
+                    'AND Assignee.UserType != \'ExternalIdentity\''
         }, {
             string: 'SELECT UserId, Status, LoginType, COUNT(Id) CntLogins ' +
                     'FROM LoginHistory ' +

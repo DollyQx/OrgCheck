@@ -626,6 +626,7 @@ describe('tests.api.unit.Datasets', () => {
         { Id: '004', Name: 'User has failed logins', ProfileId: '001', LastLoginDate: new Date(), LastPasswordChangeDate: new Date(), NumberOfFailedLogins: 5, UserPreferencesLightningExperiencePreferred: true, UserPreferencesUserDebugModePref: false },
         { Id: '005', Name: 'User is still under classic', ProfileId: '001', LastLoginDate: new Date(), LastPasswordChangeDate: new Date(), NumberOfFailedLogins: 0, UserPreferencesLightningExperiencePreferred: false, UserPreferencesUserDebugModePref: false },
         { Id: '006', Name: 'User has debug mode on', ProfileId: '001', LastLoginDate: new Date(), LastPasswordChangeDate: new Date(), NumberOfFailedLogins: 0, UserPreferencesLightningExperiencePreferred: true, UserPreferencesUserDebugModePref: true },
+        { Id: '007', Name: 'User is External Identity', ProfileId: '001', LastLoginDate: new Date(), LastPasswordChangeDate: new Date(), NumberOfFailedLogins: 0, UserPreferencesLightningExperiencePreferred: true, UserPreferencesUserDebugModePref: false, UserType: 'ExternalIdentity' },
       ]);
       sfdcManager.addSoqlQueryResponse('FROM LoginHistory ', [
         { UserId: '001', LoginType: 'Application', Status: 'Success', CntLogins: 92 }, // nbDirectLoginWithoutMFA += 92 for user 001
@@ -649,6 +650,7 @@ describe('tests.api.unit.Datasets', () => {
       expect(results).toBeDefined();
       expect(results instanceof Map).toBeTruthy();
       expect(results.size).toBe(6);
+      expect(results.has('007')).toBeFalsy();
       expect(results.get('002').lastLogin).toBe(null);
       expect(results.get('005').onLightningExperience).toBe(false);
       expect(results.get('006').hasDebugMode).toBe(true);
